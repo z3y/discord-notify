@@ -10,6 +10,7 @@ runs:
   using: 'composite'
   steps:
     - name: Send Discord Notification
+      shell: bash
       run: |
         curl -H "Content-Type: application/json" \
           -d '{
