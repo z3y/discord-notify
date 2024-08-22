@@ -14,6 +14,6 @@ runs:
       run: |
         curl -H "Content-Type: application/json" \
           -d '{
-            "content": "# [${{github.repository}}](https://github.com/${{github.repository_owner}}/${{github.repository}}) **${{ github.event.release.tag_name}}**\n\n${{github.event.release.body}}"
+            "content": "## [${{github.event.repository}}](https://github.com/${{github.repository}}) ${{ github.event.release.tag_name}}\n\n${{github.event.release.body}}"
           }' \
           ${{inputs.webhook_url}}
