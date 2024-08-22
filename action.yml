@@ -16,4 +16,4 @@ runs:
           -d '{
             "content": "# [${{github.repository}}](https://github.com/${{github.repository_owner}}/${{github.repository}}) **${{ github.event.release.tag_name}}**\n\n${{github.event.release.body}}"
           }' \
-          $DISCORD_WEBHOOK_URL
+          ${{inputs.webhook_url}}
