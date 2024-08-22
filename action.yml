@@ -1,0 +1,18 @@
+name: Discord Release Notifier
+description: Send a notification to Discord when a new release is published.
+
+inputs:
+  webhook_url:
+    description: 'Discord Webhook URL'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Send Discord Notification
+      run: |
+        curl -H "Content-Type: application/json" \
+          -d '{
+            "content": "# [${{github.repository}}](https://github.com/${{github.repository_owner}}/${{github.repository}}) **${{ github.event.release.tag_name}}**\n\n${{github.event.release.body}}"
+          }' \
+          $DISCORD_WEBHOOK_URL
