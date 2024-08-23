@@ -9,9 +9,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Escape
+      shell: bash
+      run: release_body=$(echo "${{ github.event.release.body }}" | jq -R .)
     - name: Send Discord Notification
       shell: bash
-      run: release_body=$(echo "${{ github.event.release.body }}" | sed ':a;N;$!ba;s/\n/\\n/g')
       run: |
         curl -H "Content-Type: application/json" \
           -d '{
