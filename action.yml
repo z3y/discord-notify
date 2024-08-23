@@ -9,6 +9,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Set env
+      run: echo "RELEASE_BODY=$(echo "${{ github.event.release.body }}" | sed -z 's/\n/\\n/g; s/..$//')" >> $GITHUB_ENV
     - name: Send Discord Notification
       shell: bash
       run: |
@@ -18,4 +20,4 @@ runs:
           }' \
           ${{inputs.webhook_url}}
       env:
-        RELEASE_BODY: echo "${{ github.event.release.body }}" | sed -z 's/\n/\\n/g; s/..$//'
+        RELEASE_BODY:
