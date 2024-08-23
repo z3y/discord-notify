@@ -11,6 +11,7 @@ runs:
   steps:
     - name: Set env
       run: echo "RELEASE_BODY=$(echo "${{ github.event.release.body }}" | sed -z 's/\n/\\n/g; s/..$//')" >> $GITHUB_ENV
+      shell: bash
     - name: Send Discord Notification
       shell: bash
       run: |
