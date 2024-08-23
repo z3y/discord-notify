@@ -9,17 +9,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set env
-      run: echo "RELEASE_BODY=$(echo "${{ github.event.release.body }}" | sed -z 's/\n/\\n/g; s/..$//')" >> $GITHUB_ENV
+    - name: Encode json
       shell: bash
-    - name: Echo release body
-      run: echo ${{ env.RELEASE_BODY }}
-      shell: bash
+      run: |
+        jq -n --arg content "${{ github.event.release.body }}" '{content: $content}' > data.json
     - name: Send Discord Notification
       shell: bash
       run: |
-        curl -H "Content-Type: application/json" \
-          -d '{
-            "content": "# [${{github.repository}}](<https://github.com/${{github.repository}}>) ${{ github.event.release.tag_name}}\n\n${{ env.RELEASE_BODY }}"
-          }' \
-          ${{inputs.webhook_url}}
+        curl -H "Content-Type: application/json" -d @data.json ${{inputs.webhook_url}}
