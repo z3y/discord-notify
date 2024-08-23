@@ -12,8 +12,9 @@ runs:
     - name: Send Discord Notification
       shell: bash
       run: |
+        release_body=$(echo "${{ github.event.release.body }}" | sed ':a;N;$!ba;s/\n/\\n/g')
         curl -H "Content-Type: application/json" \
           -d '{
-            "content": "# [${{github.repository}}](<https://github.com/${{github.repository}}>) ${{ github.event.release.tag_name}}\n\n${{github.event.release.body}}"
+            "content": "# [${{github.repository}}](<https://github.com/${{github.repository}}>) ${{ github.event.release.tag_name}}\n\n'"$release_body"'"
           }' \
           ${{inputs.webhook_url}}
