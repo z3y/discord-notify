@@ -12,7 +12,7 @@ runs:
     - name: Encode json
       shell: bash
       run: |
-        jq -n --arg content "${{ github.event.release.body }}" '{content: $content}' > data.json
+        jq -n --arg content "# [${{github.repository}}](<https://github.com/${{github.repository}}>) ${{ github.event.release.tag_name}}\n\n${{ env.RELEASE_BODY }}" '{content: $content}' > data.json
     - name: Send Discord Notification
       shell: bash
       run: |
